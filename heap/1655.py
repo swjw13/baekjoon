@@ -1,3 +1,6 @@
+# heap문제 중 중간값을 다루는 문제가 있을 때는
+# min, max 둘다 생각해보자
+
 import sys
 import heapq
 
