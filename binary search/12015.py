@@ -1,4 +1,4 @@
-# LIS with DP
+# LIS with BS
 
 from bisect import bisect_left
 
