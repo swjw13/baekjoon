@@ -1,3 +1,5 @@
+# 통나무 옮기기
+
 import sys
 from collections import deque
 
@@ -6,16 +8,24 @@ input = sys.stdin.readline
 N = int(input())
 
 visited = [[[False, False, False] for _ in range(N + 2)] for _ in range(N + 2)]
+
+# 통나무를 옮길 때 체크할 부분을 정의
+# index 1: 세로 모양
+# index -1: 가로 모양
 # 위 아래 왼쪽 오른쪽
 checklist_per_position = [[], [[(-2, 0)], [(2, 0)], [(-1, -1), (0, -1), (1, -1)], [(-1, 1), (0, 1), (1, 1)]],
-                          [[(-1, -1), (-1, 0), (-1, 1)], [(1, -1), (1, 0), (1, 1)], [(0, -1)], [(0, 1)]]]
+                          [[(-1, -1), (-1, 0), (-1, 1)], [(1, -1), (1, 0), (1, 1)], [(0, -2)], [(0, 2)]]]
 
+# 회전하는 경우에는 오른쪽, 왼쪽 확인 파트를 모두 확인
 checklist_rotation = [[], checklist_per_position[1][2] + checklist_per_position[1][3],
                       checklist_per_position[-1][0] + checklist_per_position[-1][1]]
 
+# 맵 주변을 -1로 감싸서 index시에 문제가 생기지 않도록 함
 field = [[-1 for _ in range(N + 2)]]
-start_center = 0
-end_center = 0
+
+start_middle_check = 0
+end_middle_check = 0
+
 start_pos = 0
 end_pos = 0
 start_point = None
@@ -25,24 +35,24 @@ for i in range(N):
     tmp = list(input())[:-1]
     for j in range(N):
         if tmp[j] == "B":
-            if start_center == 1:
+            if start_middle_check == 1:
                 start_point = (i + 1, j + 1)
                 if j + 1 < N and tmp[j + 1] == "B":
                     start_pos = -1  # 가로 모양
                 else:
                     start_pos = 1  # 세로 모양
 
-            start_center += 1
+            start_middle_check += 1
             tmp[j] = "0"
 
         elif tmp[j] == "E":
-            if end_center == 1:
+            if end_middle_check == 1:
                 end_point = (i + 1, j + 1)
                 if j + 1 < N and tmp[j + 1] == "E":
                     end_pos = -1  # 가로 모양
                 else:
                     end_pos = 1  # 세로 모양
-            end_center += 1
+            end_middle_check += 1
             tmp[j] = "0"
 
     field.append([-1] + list(map(int, tmp)) + [-1])
