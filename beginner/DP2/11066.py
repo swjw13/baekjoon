@@ -1,24 +1,25 @@
-# 남의 코드
-# 크누스 최적화
-
 import sys
 
 input = sys.stdin.readline
+INF = 1e7
 
-for i in range(int(input())):
-    n = int(input())
-    f = list(map(int, input().split()))
-    d = [[0] * (n + 1) for _ in range(n + 1)]
+T = int(input())
 
-    # 각lst의 값은 각 cost들을 다 더한 값
-    for i in range(n - 1):
-        d[i][i + 1] = f[i] + f[i + 1]
-        for j in range(i + 2, n):
-            d[i][j] = d[i][j - 1] + f[j]
+for _ in range(T):
+    N = int(input())
+    lst = list(map(int, input().split()))
+    dp = [[[INF, INF] for _ in range(N)] for _ in range(N)]
+    for i in range(N):
+        dp[i][i] = [lst[i], 0]
 
-    for v in range(2, n):
-        for i in range(n - v):
-            j = i + v
-            d[i][j] += min([d[i][k] + d[k + 1][j] for k in range(i, j)])
+    for column in range(1, N):
+        for row in range(column - 1, -1, -1):
+            for k in range(row, column):
+                x1, w1 = dp[row][k]
+                x2, w2 = dp[k + 1][column]
 
-    print(d[0][n - 1])
+                cost = w1 + w2 + x1 + x2
+                if dp[row][column][1] > cost:
+                    dp[row][column] = [x1 + x2, cost]
+
+    print(dp[0][N - 1][1])
