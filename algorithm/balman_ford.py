@@ -35,6 +35,7 @@ def balman_ford(start):
     else:
         return dist
 
+
 ans = balman_ford(1)
 
 if len(ans) == 1:
