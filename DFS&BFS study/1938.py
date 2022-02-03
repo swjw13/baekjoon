@@ -6,6 +6,7 @@ input = sys.stdin.readline
 N = int(input())
 
 visited = [[[False, False, False] for _ in range(N + 2)] for _ in range(N + 2)]
+
 # 위 아래 왼쪽 오른쪽
 checklist_per_position = [[], [[(-2, 0)], [(2, 0)], [(-1, -1), (0, -1), (1, -1)], [(-1, 1), (0, 1), (1, 1)]],
                           [[(-1, -1), (-1, 0), (-1, 1)], [(1, -1), (1, 0), (1, 1)], [(0, -1)], [(0, 1)]]]
