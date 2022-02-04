@@ -19,6 +19,7 @@ def check(i, num):
     else:
         return 9 * i * checkpoint1
 
+
 for i in range(1, 9):
     tmp += check(i, N)
 
