@@ -14,14 +14,14 @@ total = 0
 def find_total(index, prev, prev_str):
     global total
     if index == N:
-        if prev == S:
+        if prev == S and prev_str and len(prev_str) > 0:
             total += 1
         return
     else:
         tmp = lst[index]
-        find_total(index + 1, prev + tmp, )
+        find_total(index + 1, prev + tmp, str(tmp) + prev_str)
         find_total(index + 1, prev, prev_str)
 
 
-find_total(0, 0)
+find_total(0, 0, "")
 print(total)
