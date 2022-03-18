@@ -1,5 +1,6 @@
 # 괄호 변환
 # https://programmers.co.kr/learn/courses/30/lessons/60058
+# kakao 2020
 
 def solution(p):
 

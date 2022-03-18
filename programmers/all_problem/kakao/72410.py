@@ -1,7 +1,6 @@
 # 신규 아이디 추천
 # https://programmers.co.kr/learn/courses/30/lessons/72410
-import re
-
+# kakao 2021
 
 def solution(new_id):
     # answer = ''
