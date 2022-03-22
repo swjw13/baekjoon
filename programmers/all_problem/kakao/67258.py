@@ -6,7 +6,8 @@ from collections import defaultdict
 
 
 def solution(gems):
-    answer = []
+    mn = None
+    mx = None
 
     gem_dict = defaultdict(int)
     gem_prev = set()
@@ -17,19 +18,21 @@ def solution(gems):
         gem_dict[g] = i
         gem_prev.add(g)
         if len(gem_prev) == max_count:
-            if not answer:
+            if not mn:
                 tmp = min(gem_dict.values())
                 g_tmp = gems[tmp]
-                answer = [tmp + 1, i + 1]
+                mn = tmp + 1
+                mx = i + 1
                 gem_prev.remove(g_tmp)
             else:
-                prev_length = answer[1] - answer[0]
+                prev_length = mx - mn
                 tmp = min(gem_dict.values())
                 g_tmp = gems[tmp]
                 new_length = i - tmp
                 if prev_length > new_length:
-                    answer = [tmp + 1, i + 1]
+                    mn = tmp + 1
+                    mx = i + 1
                     gem_prev.remove(g_tmp)
 
-    return answer
+    return [mn, mx]
 
