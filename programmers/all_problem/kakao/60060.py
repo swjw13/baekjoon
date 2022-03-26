@@ -10,7 +10,7 @@ def solution(words, queries):
 
     def bi_left(st):
         start = 0
-        end = len(st)
+        end = len(st) - 1
         ans = -1
         while end >= start:
             mid = (start + end) // 2
@@ -23,7 +23,7 @@ def solution(words, queries):
 
     def bi_right(st):
         start = 0
-        end = len(st)
+        end = len(st) - 1
         ans = -1
         while end >= start:
             mid = (start + end) // 2
