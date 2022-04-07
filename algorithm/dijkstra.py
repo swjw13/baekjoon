@@ -18,11 +18,11 @@ v1, v2 = list(map(int, input().split()))
 def dijkstra(start, end):
     dist = [INF for _ in range(N + 1)]
     # (거리 정보, 점) 이렇게 큐를 구성
-    visited = [[dist[start], start]]
+    priority_queue = [[dist[start], start]]
     dist[start] = 0
 
-    while visited:
-        current_dist, current_point = heapq.heappop(visited)
+    while priority_queue:
+        current_dist, current_point = heapq.heappop(priority_queue)
 
         # 만약 현재 값이 기록된 거리보다 멀다면 볼 필요도 없음
         if dist[current_point] < current_dist:
@@ -33,7 +33,7 @@ def dijkstra(start, end):
             new_dist = current_dist + w
             if dist[new_point] > new_dist:
                 dist[new_point] = new_dist
-                heapq.heappush(visited, [new_dist, new_point])
+                heapq.heappush(priority_queue, [new_dist, new_point])
 
     return dist[end]
 
