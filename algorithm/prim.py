@@ -24,7 +24,6 @@ while queue:
         ans += w
         visited[p] = True
         for con_weight, con_point in lines[p]:
-            if not visited[con_point]:
-                heapq.heappush(queue, [con_weight, con_point])
+            heapq.heappush(queue, [con_weight, con_point])
 
 print(ans)

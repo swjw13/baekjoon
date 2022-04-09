@@ -1,4 +1,5 @@
 import sys
+import heapq
 
 sys.setrecursionlimit(10 ** 9)
 input = sys.stdin.readline
@@ -22,6 +23,9 @@ def union(one, two):
     parent[one] = final_parent
     parent[two] = final_parent
 
+# 초기: [1, 2, 3, 4, 5, 6, 7, 8]
+# 결과: [1, 1, 1, 1, 5, 5, 5, 8]
+
 
 lines = []
 for _ in range(e):
@@ -33,7 +37,7 @@ points_appended = set()
 weight = 0
 
 while lines:
-    point1, point2, value = lines.pop(0)
+    point1, point2, value = heapq.heappop(lines)
 
     a = find_parent(parent, point1)
     b = find_parent(parent, point2)
