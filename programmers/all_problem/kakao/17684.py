@@ -1,70 +1,35 @@
-def solution(m, musicinfos):
-    answer = None
+# https://programmers.co.kr/learn/courses/30/lessons/17684
+# 압축
 
-    def extract(st, answer):
-        target = m
-        start_time, end_time, title, body = st.split(",")
-        b = []
-        body_split = []
-        tmp = 1
-        while tmp < len(body):
-            if body[tmp] in "ABCDEFG":
-                body_split.append(body[:tmp])
-                body = body[tmp:]
-                tmp = 1
-            else:
-                tmp += 1
-        body_split.append(body)
+def solution(msg):
+    answer = []
 
-        tmp = start_time.split(":")
-        start_min = int(tmp[0]) * 60 + int(tmp[1])
-        tmp = end_time.split(":")
-        end_min = int(tmp[0]) * 60 + int(tmp[1])
+    word_number = dict()
+    word_set = set()
+    words = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for i in range(26):
+        word_number[words[i]] = i + 1
+        word_set.add(words[i])
 
-        for i in range(end_min - start_min):
-            b.append(body_split[i % len(body_split)])
-        l1 = len(b)
-
-        target_split = []
-        tmp = 1
-        while tmp < len(target):
-            if target[tmp] in "ABCDEFG":
-                target_split.append(target[:tmp])
-                target = target[tmp:]
-                tmp = 1
-            else:
-                tmp += 1
-        target_split.append(target)
-        l2 = len(target_split)
-
-        tmp = False
-        for i in range(l1 - l2 + 1):
-            if b[i:i + l2] == target_split:
-                tmp = True
+    word_num_count = 27
+    start_idx = 0
+    while start_idx < len(msg):
+        end_idx = start_idx + 1
+        while True:
+            if end_idx == len(msg):
+                answer.append(word_number[msg[start_idx:]])
+                start_idx = end_idx
                 break
-
-        if tmp:
-            if answer is None:
-                return [end_min - start_min, title]
+            if msg[start_idx:end_idx] in word_set and msg[start_idx:end_idx + 1] not in word_set:
+                answer.append(word_number[msg[start_idx:end_idx]])
+                word_number[msg[start_idx:end_idx + 1]] = word_num_count
+                word_num_count += 1
+                word_set.add(msg[start_idx:end_idx + 1])
+                start_idx = end_idx
             else:
-                if end_min - start_min > answer[0]:
-                    return [end_min - start_min, title]
-                else:
-                    return "1"
-        else:
-            return "1"
+                end_idx += 1
 
-    for i in musicinfos:
-        tmp = extract(i, answer)
-        if tmp != "1":
-            answer = tmp
+    return answer
 
-    if answer is None:
-        return "(None)"
-    else:
-        return answer[1]
-
-
-a = "ABCDEFG"
-b = ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]
-print(solution(a, b))
+a = "TOBEORNOTTOBEORTOBEORNOT"
+print(solution(a))
