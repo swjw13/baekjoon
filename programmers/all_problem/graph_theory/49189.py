@@ -4,8 +4,8 @@
 from collections import deque
 import sys
 
+
 def solution(n, edge):
-    answer = 0
     connected = {i: [] for i in range(1, n + 1)}
     for lines in edge:
         connected[lines[0]].append(lines[1])

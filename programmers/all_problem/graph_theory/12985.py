@@ -18,4 +18,3 @@ def solution(n, a, b):
         else:
             end = int(mid - 0.5)
             i -= 1
-
