@@ -23,19 +23,12 @@ def solution(begin, end):
 
     for i in range(begin, end + 1):
         a = 1
-        tmp = [j for j in lst if j < i]
-        cur_num = i
+        tmp = [j for j in range(2, int(i ** 0.5) + 1)]
         for t in tmp:
-            check = False
-            while cur_num % t == 0:
-                cur_num //= t
-                if cur_num < 10000000:
-                    check = True
-                    a = cur_num
+            if i % t == 0:
+                if i // t <= 10000000:
+                    a = i // t
                     break
-            if check:
-                break
-
 
         answer.append(a)
 
