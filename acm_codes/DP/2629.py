@@ -1,31 +1,31 @@
-import sys
+# https://www.acmicpc.net/problem/2629
+# 양 팔 저울
 
+import sys
 input = sys.stdin.readline
 
-n = int(input())
-grams = list(map(int, input().split()))
-grams.sort()
-m = min(grams)
+N = int(input())
+bells = list(map(int, input().split()))
+bell_length = len(bells)
+T = int(input())
+checks = list(map(int, input().split()))
 
-k_num = int(input())
-ks = list(map(int, input().split()))
-k = sum(grams)
+max_value = sum(bells)
+visited = [[False for _ in range(max_value + 1)] for _ in range(bell_length + 1)]
 
-dp = [[0 for _ in range(k + 1)] for _ in range(n + 1)]
+visited[0][max_value] = True
 
-i = 0
-for gram in grams:
-    dp[i][k] = 1
-    for q in range(k, -1, -1):
-        dp[i + 1][q] = 1
-        if dp[i][q] == 1 and q - gram >= 0:
-            dp[i + 1][q - gram] = 1
-        if dp[i][q] == 1 and q - 2 * gram >= 0:
-            dp[i + 1][q - 2 * gram] = 1
-    i += 1
+for i in range(bell_length):
+    for j in range(max_value, 0, -1):
+        if visited[i][j]:
+            visited[i + 1][j] = True
+            if j - bells[i] >= 0:
+                visited[i + 1][j - bells[i]] = True
+            if j - 2 * bells[i] >= 0:
+                visited[i + 1][j - 2 * bells[i]] = True
 
-for a in ks:
-    if dp[i][a] == 1:
-        print("Y")
+for tmp in checks:
+    if tmp <= max_value and visited[bell_length][tmp]:
+        print("Y", end=" ")
     else:
-        print("N")
+        print("N", end=" ")
