@@ -13,8 +13,8 @@ def solution(land):
         for j in range(col):
             board[i][j] = max([board[i - 1][k] for k in range(col) if k != j]) + land[i][j]
 
-    
     return max(board[row - 1])
 
-a = [[1,2,3,5],[5,6,7,8],[4,3,2,1]]
+
+a = [[1, 2, 3, 5], [5, 6, 7, 8], [4, 3, 2, 1]]
 print(solution(a))
