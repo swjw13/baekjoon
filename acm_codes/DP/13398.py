@@ -1,54 +1,23 @@
-import sys
+# https://www.acmicpc.net/problem/13398
+# 연속 합 2
 
+import sys
 input = sys.stdin.readline
 
 n = int(input())
 lst = list(map(int, input().split()))
+dp = [[0 for _ in range(n + 1)] for _ in range(2)]
 
-end = 0
-total = 0
-ability = 1
-mx = -sys.maxsize
-tmp = 0
-idx = 0
-
-while True:
-    if end == n:
-        print(mx)
-        break
-    total += lst[end]
-    if total > mx:
-        mx = total
-
-    if lst[end] >= 0:
-        end += 1
+for i in range(n):
+    if lst[i] >= 0:
+        dp[1][i + 1] = dp[1][i] + lst[i]
+        dp[0][i + 1] = dp[0][i] + lst[i]
     else:
-        if ability == 1:
-            total -= lst[end]
-            if end == 0:
-                lst[end] = 0
-            tmp = lst[end]
-            ability = 0
-            end += 1
-        else:
-            total -= lst[end]
-            if total + lst[end] < 0:
-                if total + tmp < 0:
-                    tmp = 0
-                    ability = 1
-                    total = 0
-                    end += 1
-                else:
-                    total += tmp
-                    tmp = lst[end]
-                    end += 1
-            else:
-                if total + tmp < 0:
-                    total += lst[end]
-                    end += 1
-                else:
-                    ans1 = min(tmp, lst[end])
-                    ans2 = max(tmp, lst[end])
-                    tmp = ans1
-                    total += ans2
-                    end += 1
+        dp[1][i + 1] = max(0, dp[1][i] + lst[i])
+        dp[0][i + 1] = max(0, dp[0][i] + lst[i], dp[1][i])
+
+a = max(max(dp[0]), max(dp[1]))
+if a == 0:
+    print(max(lst))
+else:
+    print(a)

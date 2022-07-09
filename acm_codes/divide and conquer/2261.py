@@ -3,12 +3,13 @@
 import sys
 
 sys.setrecursionlimit(1000000)
-points = []
+points = set()
 n = int(sys.stdin.readline())
 for _ in range(n):
     x, y = list(map(int, sys.stdin.readline().split()))
-    points.append((x, y))
-
+    points.add((x, y))
+points = list(points)
+n = len(points)
 points.sort(key=lambda xt: xt[0])
 
 
@@ -29,7 +30,7 @@ def nearest(start, end):
     while low >= start and low >= mid - int(side ** 0.5):
         lst.append(low)
         low -= 1
-    while hi <= end and hi <= mid + 1 + int(side ** 0.5):
+    while hi <= end and hi <= mid + int(side ** 0.5):
         lst.append(hi)
         hi += 1
 
