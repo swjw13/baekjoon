@@ -27,12 +27,11 @@ def solution(gems):
             else:
                 prev_length = mx - mn
                 tmp = min(gem_dict.values())
-                g_tmp = gems[tmp]
                 new_length = i - tmp
                 if prev_length > new_length:
+                    g_tmp = gems[tmp]
                     mn = tmp + 1
                     mx = i + 1
                     gem_prev.remove(g_tmp)
 
     return [mn, mx]
-
