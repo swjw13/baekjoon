@@ -1,7 +1,6 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/118669
 # 등산코스 정하기
 
-import sys
 from collections import defaultdict, deque
 
 
