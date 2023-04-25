@@ -9,54 +9,50 @@ dxdy = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 R, C = list(map(int, input().split()))
 board = []
 jihun_point = None
-fire_point = set()
+fire_point = deque()
+fire = [[-1 for _ in range(C)] for _ in range(R)]
 
-for i in range(R):
-    tmp = list(input().strip())
-    if "J" in tmp:
-        jihun_point = (i, tmp.index("J"))
-    if "F" in tmp:
-        fire_point.add((i, tmp.index("F")))
-    board.append(tmp)
+for row in range(R):
+    line = list(input().strip())
+    for col in range(C):
+        if line[col] == "J":
+            jihun_point = (row, col)
+        elif line[col] == "F":
+            fire[row][col] = 0
+            fire_point.append((row, col, 0))
+    board.append(line)
 
-visited = [[10000000 for _ in range(C)] for _ in range(R)]
-queue = deque()
-for x, y in fire_point:
-    visited[x][y] = 0
-    queue.append((x, y))
-
-while queue:
-    fire_x, fire_y = queue.popleft()
-    cur_point = visited[fire_x][fire_y]
+while fire_point:
+    fire_row, fire_col, cur_turn = fire_point.popleft()
     for dx, dy in dxdy:
-        new_x, new_y = fire_x + dx, fire_y + dy
-        if 0 <= new_x < R and 0 <= new_y < C:
-            if board[new_x][new_y] != "#" and visited[new_x][new_y] > cur_point + 1:
-                visited[new_x][new_y] = cur_point + 1
-                queue.append((new_x, new_y))
+        new_row = fire_row + dx
+        new_col = fire_col + dy
+        if 0 <= new_row < R and 0 <= new_col < C and board[new_row][new_col] != "#":
+            if fire[new_row][new_col] == -1:
+                fire[new_row][new_col] = cur_turn + 1
+                fire_point.append((new_row, new_col, cur_turn + 1))
 
-new_v = [[False for _ in range(C)] for _ in range(R)]
-new_v[jihun_point[0]][jihun_point[1]] = True
-queue = deque([(jihun_point[0], jihun_point[1], 0)])
-ans = False
-tot = -1
+res = -1
+j_queue = deque([(jihun_point[0], jihun_point[1], 0)])
+visited = [[False for _ in range(C)] for _ in range(R)]
+visited[jihun_point[0]][jihun_point[1]] = True
+is_out = False
 
-while queue:
-    cur_x, cur_y, turn = queue.popleft()
-    if (cur_x == 0) or (cur_x == R - 1) or (cur_y == 0) or (cur_y == C - 1):
-        tot = turn
-        ans = True
-        break
-    else:
-        for dx, dy in dxdy:
-            new_x = cur_x + dx
-            new_y = cur_y + dy
-            if 0 <= new_x < R and 0 <= new_y < C and not new_v[new_x][new_y] and board[new_x][new_y] != "#":
-                if visited[new_x][new_y] > turn + 1:
-                    new_v[new_x][new_y] = True
-                    queue.append((new_x, new_y, turn + 1))
-
-if ans:
-    print(tot + 1)
-else:
+while j_queue and not is_out:
+    cur_row, cur_col, cur_turn = j_queue.popleft()
+    for dx, dy in dxdy:
+        new_row = cur_row + dx
+        new_col = cur_col + dy
+        if 0 <= new_row < R and 0 <= new_col < C:
+            if board[new_row][new_col] != "#":
+                if (fire[new_row][new_col] == -1 or fire[new_row][new_col] > cur_turn + 1) and not visited[new_row][new_col]:
+                    visited[new_row][new_col] = True
+                    j_queue.append((new_row, new_col, cur_turn + 1))
+        else:
+            res = cur_turn + 1
+            is_out = True
+            break
+if res == -1:
     print("IMPOSSIBLE")
+else:
+    print(res)

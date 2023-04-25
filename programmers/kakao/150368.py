@@ -1,4 +1,5 @@
-qorfrom itertools import product
+from itertools import product
+
 
 def solution(users, emoticons):
     answer = []
